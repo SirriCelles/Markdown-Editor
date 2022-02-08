@@ -4,7 +4,7 @@
   "description": "simple project",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon --exec babel-node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,10 +22,13 @@
   },
   "homepage": "https://github.com/SirriCelles/Markdown-Editor#readme",
   "dependencies": {
+    "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.17.0",
+    "@babel/node": "^7.16.8",
     "nodemon": "^2.0.15"
   }
 }
