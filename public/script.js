@@ -4,7 +4,28 @@ window.onload = function() {
     var pad = document.getElementById('pad');
     var markdownArea = document.getElementById('markdown');
 
-    var previousMarkdownValue;pre
+    // make tab focus on page
+    pad.addEventListener('keydown', function(e) {
+        if(e.code === 'Tab') {
+            let start = this.selectionStart;
+            let end = this.selectionEnd;
+
+            let target = e.target;
+            let value = target.value;
+
+            // set textarea value to text before caret and tab and text after
+
+            target.value = value.substring(0, start) + "\t" + value.substring(end);
+
+            // put caret at the right position again
+            this.selectionStart = this.selectionEnd = start + 1;
+
+            // prevent default focus lose
+            e.preventDefault();
+        }
+    });
+
+    var previousMarkdownValue;
 
     var convertTextAreaToMarkdown = function() {
         var markdownText = pad.value;
@@ -29,10 +50,15 @@ window.onload = function() {
 
     pad.addEventListener('input', convertTextAreaToMarkdown);
 
-// attaching the changes textarea to the current page page
-    sharejs.open(document.location.pathname, 'text', function(error, doc) {
-        doc.attach_textarea(pad);
-        convertTextAreaToMarkdown();
-    });
+
+    if(document.location.pathname.length > 1) {
+        // attaching the changes textarea to the current page page
+        sharejs.open(document.location.pathname, 'text', function(error, doc) {
+            doc.attach_textarea(pad);
+            convertTextAreaToMarkdown();
+        });
+    }
+
+    convertTextAreaToMarkdown();
 
 }
